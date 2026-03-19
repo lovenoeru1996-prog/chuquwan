@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>峇厘島 · 單身之旅</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --warm-bg: #FDF6EC;
+      --warm-primary: #C8602A;
+      --warm-secondary: #E8935A;
+      --warm-accent: #F4C57A;
+      --warm-dark: #3D2B1F;
+      --warm-muted: #8C6B4F;
+      --warm-card: #FFFAF3;
+      --warm-border: #E8D5BE;
+    }
+    body {
+      background: var(--warm-bg);
+      color: var(--warm-dark);
+      font-family: 'Inter', 'Noto Sans TC', -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #C8602A 0%, #E8935A 55%, #F4C57A 100%);
+      color: white;
+      padding: 64px 24px 52px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '🌴';
+      position: absolute;
+      font-size: 200px;
+      opacity: 0.13;
+      right: -30px;
+      bottom: -30px;
+      line-height: 1;
+    }
+    .hero::after {
+      content: '🌺';
+      position: absolute;
+      font-size: 120px;
+      opacity: 0.1;
+      left: -10px;
+      top: -10px;
+      line-height: 1;
+    }
+    .hero-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+    }
+    .hero-en {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      opacity: 0.88;
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-tag {
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    /* ── DAY NAVIGATOR ── */
+    .day-nav {
+      background: var(--warm-card);
+      border-bottom: 2px solid var(--warm-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(61,43,31,0.08);
+    }
+    .day-nav-inner {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .day-nav-inner::-webkit-scrollbar { display: none; }
+    .day-btn {
+      flex-shrink: 0;
+      padding: 14px 22px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.22s ease;
+      font-family: 'Inter', sans-serif;
+      color: var(--warm-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .day-btn:hover { color: var(--warm-secondary); background: rgba(232,147,90,0.06); }
+    .day-btn.active { color: var(--warm-primary); border-bottom-color: var(--warm-primary); }
+    .day-label { font-weight: 600; font-size: 0.82rem; }
+    .day-date { font-size: 0.72rem; opacity: 0.8; }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 36px 20px 72px;
+    }
+    .day-content { display: none; animation: fadeIn 0.3s ease; }
+    .day-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .day-header { margin-bottom: 28px; }
+    .day-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+    .day-number { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; color: var(--warm-muted); text-transform: uppercase; }
+    .location-badge {
+      background: var(--warm-accent);
+      color: var(--warm-dark);
+      border-radius: 12px;
+      padding: 3px 13px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .day-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--warm-primary);
+      line-height: 1.2;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 22px; margin-bottom: 36px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--warm-secondary), var(--warm-accent));
+      border-radius: 2px;
+    }
+    .timeline-item { position: relative; margin-bottom: 13px; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -26px; top: 17px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--warm-secondary);
+      border: 2px solid var(--warm-bg);
+      z-index: 1;
+    }
+    .activity-card {
+      background: var(--warm-card);
+      border: 1px solid var(--warm-border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 10px rgba(61,43,31,0.065);
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      transition: box-shadow 0.2s;
+    }
+    .activity-card:hover { box-shadow: 0 4px 18px rgba(61,43,31,0.12); }
+    .activity-icon { font-size: 1.45rem; flex-shrink: 0; margin-top: 1px; }
+    .activity-body { flex: 1; }
+    .activity-time {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--warm-secondary);
+      letter-spacing: 0.06em;
+      margin-bottom: 3px;
+    }
+    .activity-name { font-weight: 600; font-size: 0.96rem; color: var(--warm-dark); margin-bottom: 3px; }
+    .activity-desc { font-size: 0.84rem; color: var(--warm-muted); line-height: 1.55; }
+
+    /* ── RESTAURANTS ── */
+    .restaurants-section { margin-top: 4px; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--warm-dark);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--warm-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .restaurant-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 12px; }
+    .restaurant-card {
+      background: white;
+      border: 1px solid var(--warm-border);
+      border-left: 4px solid var(--warm-secondary);
+      border-radius: 10px;
+      padding: 14px 16px;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .restaurant-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(61,43,31,0.1); }
+    .meal-type {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--warm-muted);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .restaurant-name { font-weight: 600; font-size: 0.93rem; color: var(--warm-dark); margin-bottom: 7px; line-height: 1.35; }
+    .restaurant-rating { color: var(--warm-secondary); font-weight: 700; font-size: 0.88rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--warm-muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--warm-border);
+      background: var(--warm-card);
+    }
+    footer span { color: var(--warm-secondary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .hero { padding: 48px 18px 40px; }
+      .restaurant-grid { grid-template-columns: 1fr 1fr; }
+      .content { padding: 24px 16px 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <p class="hero-kicker">✦ Solo Travel ✦</p>
+  <h1 class="hero-title">峇厘島</h1>
+  <p class="hero-en">Bali · Solo Journey</p>
+  <p class="hero-subtitle">2025年 3月24日 — 3月28日 &nbsp;·&nbsp; 5天4夜</p>
+  <div class="hero-tags">
+    <span class="hero-tag">📍 烏布 Ubud</span>
+    <span class="hero-tag">📍 蒼谷 Canggu</span>
+    <span class="hero-tag">🧘 身心療癒</span>
+    <span class="hero-tag">🏖️ Beach Club</span>
+  </div>
+</header>
+
+<!-- ── DAY NAVIGATOR ── -->
+<nav class="day-nav">
+  <div class="day-nav-inner">
+    <button class="day-btn active" onclick="showDay(1)">
+      <span class="day-label">DAY 1</span>
+      <span class="day-date">3/24 週二</span>
+    </button>
+    <button class="day-btn" onclick="showDay(2)">
+      <span class="day-label">DAY 2</span>
+      <span class="day-date">3/25 週三</span>
+    </button>
+    <button class="day-btn" onclick="showDay(3)">
+      <span class="day-label">DAY 3</span>
+      <span class="day-date">3/26 週四</span>
+    </button>
+    <button class="day-btn" onclick="showDay(4)">
+      <span class="day-label">DAY 4</span>
+      <span class="day-date">3/27 週五</span>
+    </button>
+    <button class="day-btn" onclick="showDay(5)">
+      <span class="day-label">DAY 5</span>
+      <span class="day-date">3/28 週六</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── CONTENT ── -->
+<main class="content">
+
+  <!-- DAY 1 -->
+  <div id="day-1" class="day-content active">
+    <div class="day-header">
+      <div class="day-meta">
+        <span class="day-number">DAY 01 · 3月24日 週二</span>
+        <span class="location-badge">🏨 烏布 Ubud</span>
+      </div>
+      <h2 class="day-title">啟程，遇見烏布</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">✈️</span>
+          <div class="activity-body">
+            <div class="activity-time">15:30</div>
+            <div class="activity-name">抵達峇厘島</div>
+            <div class="activity-desc">落地！正式開啟單身之旅 🎉</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🚗</span>
+          <div class="activity-body">
+            <div class="activity-time">15:30 → 18:00</div>
+            <div class="activity-name">前往烏布</div>
+            <div class="activity-desc">車程約 1.5 小時，沿路欣賞峇厘島田野風光</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🍽️</span>
+          <div class="activity-body">
+            <div class="activity-time">18:00 之後</div>
+            <div class="activity-name">抵達、用晚餐</div>
+            <div class="activity-desc">Check in 飯店後享用第一頓峇厘島晚餐</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🍹</span>
+          <div class="activity-body">
+            <div class="activity-name">回飯店小酌</div>
+            <div class="activity-desc">一個人也可以喝得很開心，迎接悠閒的夜晚</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-section">
+      <h3 class="section-title">🍽️ 餐飲推薦</h3>
+      <div class="restaurant-grid">
+        <div class="restaurant-card">
+          <span class="meal-type">🍹 晚餐 / 酒吧</span>
+          <div class="restaurant-name">CHUPACABRAS</div>
+          <div class="restaurant-rating">⭐ 4.9</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div id="day-2" class="day-content">
+    <div class="day-header">
+      <div class="day-meta">
+        <span class="day-number">DAY 02 · 3月25日 週三</span>
+        <span class="location-badge">🏨 烏布 Ubud</span>
+      </div>
+      <h2 class="day-title">烏布慢日子</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">☕</span>
+          <div class="activity-body">
+            <div class="activity-name">早午餐時光</div>
+            <div class="activity-desc">在烏布的網美咖啡廳悠閒開啟一天</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🛍️</span>
+          <div class="activity-body">
+            <div class="activity-name">附近閒逛</div>
+            <div class="activity-desc">HANDEP 選物店 &amp; Art Market 藝術市集，找找獨一無二的紀念品</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🧘</span>
+          <div class="activity-body">
+            <div class="activity-name">下午按摩</div>
+            <div class="activity-desc">UR SPA — 放鬆疲憊的旅人身心，峇厘島不能錯過的體驗</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🍽️</span>
+          <div class="activity-body">
+            <div class="activity-time">18:30</div>
+            <div class="activity-name">晚餐</div>
+            <div class="activity-desc">挑選一間評分超高的烏布餐廳，好好犒賞自己</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🍹</span>
+          <div class="activity-body">
+            <div class="activity-name">夜晚小酌</div>
+            <div class="activity-desc">到烏布人氣酒吧感受夜生活氛圍</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-section">
+      <h3 class="section-title">🍽️ 餐飲推薦</h3>
+      <div class="restaurant-grid">
+        <div class="restaurant-card">
+          <span class="meal-type">☕ 咖啡廳 / 早午餐</span>
+          <div class="restaurant-name">Two Face Coffee &amp; Brunch</div>
+          <div class="restaurant-rating">⭐ 4.9</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">☕ 咖啡廳</span>
+          <div class="restaurant-name">Watercress Ubud</div>
+          <div class="restaurant-rating">⭐ 4.7</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">☕ 咖啡廳</span>
+          <div class="restaurant-name">Pison Ubud</div>
+          <div class="restaurant-rating">⭐ 4.4</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🍽️ 餐廳</span>
+          <div class="restaurant-name">Habitat Bistro Restaurant</div>
+          <div class="restaurant-rating">⭐ 4.9</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🍽️ 晚餐</span>
+          <div class="restaurant-name">Donna</div>
+          <div class="restaurant-rating">⭐ 4.8</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🍹 酒吧</span>
+          <div class="restaurant-name">Night Rooster</div>
+          <div class="restaurant-rating">⭐ 4.7</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🍹 酒吧</span>
+          <div class="restaurant-name">The Blue Door Bar</div>
+          <div class="restaurant-rating">⭐ 4.7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div id="day-3" class="day-content">
+    <div class="day-header">
+      <div class="day-meta">
+        <span class="day-number">DAY 03 · 3月26日 週四</span>
+        <span class="location-badge">🏨 蒼谷 Canggu</span>
+      </div>
+      <h2 class="day-title">海風與微醺</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">☕</span>
+          <div class="activity-body">
+            <div class="activity-name">早午餐</div>
+            <div class="activity-desc">烏布最後一頓早午餐，好好品味</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🏨</span>
+          <div class="activity-body">
+            <div class="activity-name">Check out 烏布</div>
+            <div class="activity-desc">整理行李，再逛逛烏布街頭，捨不得離開也沒關係</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🚗</span>
+          <div class="activity-body">
+            <div class="activity-time">13:00</div>
+            <div class="activity-name">前往蒼谷 Canggu</div>
+            <div class="activity-desc">車程約 1 小時，進入衝浪者與咖啡師的天堂</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🏨</span>
+          <div class="activity-body">
+            <div class="activity-name">Check in 新住所</div>
+            <div class="activity-desc">放下行李，換上最輕鬆的裝扮</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🏖️</span>
+          <div class="activity-body">
+            <div class="activity-name">La Brisa Beach Club</div>
+            <div class="activity-desc">峇厘島最美 Beach Club 之一，竹編建築 + 夕陽 + 雞尾酒</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🍹</span>
+          <div class="activity-body">
+            <div class="activity-name">晚上 Finns Beach Club</div>
+            <div class="activity-desc">蒼谷必去的大型海灘俱樂部，夜晚更有氣氛</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-section">
+      <h3 class="section-title">🏖️ Beach Club 推薦</h3>
+      <div class="restaurant-grid">
+        <div class="restaurant-card">
+          <span class="meal-type">🏖️ Beach Club</span>
+          <div class="restaurant-name">La Brisa Bali</div>
+          <div class="restaurant-rating">⭐ 4.6</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🏖️ Beach Club</span>
+          <div class="restaurant-name">Finns Beach Club</div>
+          <div class="restaurant-rating">⭐ 4.7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div id="day-4" class="day-content">
+    <div class="day-header">
+      <div class="day-meta">
+        <span class="day-number">DAY 04 · 3月27日 週五</span>
+        <span class="location-badge">🏨 蒼谷 Canggu</span>
+      </div>
+      <h2 class="day-title">身心的靜謐時光</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">☕</span>
+          <div class="activity-body">
+            <div class="activity-name">早午餐</div>
+            <div class="activity-desc">蒼谷咖啡廳文化超強，隨便走進一家都不會踩雷</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🐶</span>
+          <div class="activity-body">
+            <div class="activity-time">11:15 – 12:15</div>
+            <div class="activity-name">Puppy Yoga Bali</div>
+            <div class="activity-desc">跟超可愛的小狗狗一起做瑜伽！峇厘島限定體驗，必排</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">☕</span>
+          <div class="activity-body">
+            <div class="activity-name">下午咖啡</div>
+            <div class="activity-desc">找間有陽光的咖啡廳，療癒系續攤</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🧘</span>
+          <div class="activity-body">
+            <div class="activity-time">14:30 – 17:00</div>
+            <div class="activity-name">Sound Healing 音療</div>
+            <div class="activity-desc">Udara Bali Yoga Detox &amp; Spa — 頌缽音療，讓身心徹底放空</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🗓️</span>
+          <div class="activity-body">
+            <div class="activity-name">自由時光</div>
+            <div class="activity-desc">按摩？咖啡廳？或是再去 Beach Club？完全隨心情決定</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-section">
+      <h3 class="section-title">🍽️ 餐飲推薦</h3>
+      <div class="restaurant-grid">
+        <div class="restaurant-card">
+          <span class="meal-type">🧘 音療 / SPA</span>
+          <div class="restaurant-name">Udara Bali Yoga Detox &amp; Spa</div>
+          <div class="restaurant-rating">🌿 特色體驗</div>
+        </div>
+        <div class="restaurant-card">
+          <span class="meal-type">🍹 酒吧</span>
+          <div class="restaurant-name">Cloak and Dagger</div>
+          <div class="restaurant-rating">⭐ 4.9</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div id="day-5" class="day-content">
+    <div class="day-header">
+      <div class="day-meta">
+        <span class="day-number">DAY 05 · 3月28日 週六</span>
+        <span class="location-badge">✈️ 返程日</span>
+      </div>
+      <h2 class="day-title">帶著回憶飛翔</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🏨</span>
+          <div class="activity-body">
+            <div class="activity-name">Check out</div>
+            <div class="activity-desc">道別蒼谷，整理行囊，把峇厘島的陽光一起打包帶走</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">☕</span>
+          <div class="activity-body">
+            <div class="activity-name">最後一頓早午餐</div>
+            <div class="activity-desc">在喜歡的咖啡廳點杯最後的峇厘島咖啡，慢慢品嘗</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">🚗</span>
+          <div class="activity-body">
+            <div class="activity-name">前往機場</div>
+            <div class="activity-desc">蒼谷到機場約 1 小時，建議早點出發</div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="activity-card">
+          <span class="activity-icon">✈️</span>
+          <div class="activity-body">
+            <div class="activity-time">16:40</div>
+            <div class="activity-name">班機起飛</div>
+            <div class="activity-desc">再見，峇厘島。謝謝你給了我最美的獨旅記憶 🌅</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-section">
+      <h3 class="section-title">✨ 旅程回顧</h3>
+      <div class="restaurant-grid">
+        <div class="restaurant-card" style="border-left-color: var(--warm-accent);">
+          <span class="meal-type">📍 城市</span>
+          <div class="restaurant-name">烏布 Ubud</div>
+          <div class="restaurant-rating" style="color: var(--warm-muted);">文化 · 藝術 · 按摩</div>
+        </div>
+        <div class="restaurant-card" style="border-left-color: var(--warm-accent);">
+          <span class="meal-type">📍 城市</span>
+          <div class="restaurant-name">蒼谷 Canggu</div>
+          <div class="restaurant-rating" style="color: var(--warm-muted);">海灘 · 衝浪 · 療癒</div>
+        </div>
+        <div class="restaurant-card" style="border-left-color: var(--warm-accent);">
+          <span class="meal-type">🎯 特別體驗</span>
+          <div class="restaurant-name">Puppy Yoga + 音療</div>
+          <div class="restaurant-rating" style="color: var(--warm-muted);">身心都被治癒了</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>🌴 峇厘島單身之旅 &nbsp;·&nbsp; 2025年3月24日—28日 &nbsp;·&nbsp; Made with <span>♥</span></p>
+</footer>
+
+<script>
+  function showDay(n) {
+    document.querySelectorAll('.day-content').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('day-' + n).classList.add('active');
+    document.querySelectorAll('.day-btn')[n - 1].classList.add('active');
+  }
+</script>
+</body>
+</html>

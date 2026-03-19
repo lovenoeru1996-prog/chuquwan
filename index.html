@@ -244,6 +244,36 @@
     .restaurant-name { font-weight: 600; font-size: 0.93rem; color: var(--warm-dark); margin-bottom: 7px; line-height: 1.35; }
     .restaurant-rating { color: var(--warm-secondary); font-weight: 700; font-size: 0.88rem; }
 
+    /* ── MAP LINKS ── */
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1.5px dashed var(--warm-secondary);
+      transition: color 0.18s, border-color 0.18s;
+      cursor: pointer;
+    }
+    .map-link:hover { color: var(--warm-primary); border-bottom-color: var(--warm-primary); }
+    .map-link::after {
+      content: '↗';
+      font-size: 0.7em;
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+    .restaurant-card a.map-link {
+      font-weight: 600;
+      font-size: 0.93rem;
+      line-height: 1.35;
+      margin-bottom: 7px;
+      display: inline-flex;
+    }
+    .activity-name a.map-link {
+      color: var(--warm-dark);
+      font-weight: 600;
+    }
+
     /* ── FOOTER ── */
     footer {
       text-align: center;
@@ -365,7 +395,7 @@
       <div class="restaurant-grid">
         <div class="restaurant-card">
           <span class="meal-type">🍹 晚餐 / 酒吧</span>
-          <div class="restaurant-name">CHUPACABRAS</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/CHUPACABRAS+Ubud+Bali" target="_blank">CHUPACABRAS</a></div>
           <div class="restaurant-rating">⭐ 4.9</div>
         </div>
       </div>
@@ -406,7 +436,7 @@
           <span class="activity-icon">🧘</span>
           <div class="activity-body">
             <div class="activity-name">下午按摩</div>
-            <div class="activity-desc">UR SPA — 放鬆疲憊的旅人身心，峇厘島不能錯過的體驗</div>
+            <div class="activity-desc"><a class="map-link" href="https://www.google.com/maps/search/UR+SPA+Ubud+Bali" target="_blank">UR SPA</a> — 放鬆疲憊的旅人身心，峇厘島不能錯過的體驗</div>
           </div>
         </div>
       </div>
@@ -436,37 +466,37 @@
       <div class="restaurant-grid">
         <div class="restaurant-card">
           <span class="meal-type">☕ 咖啡廳 / 早午餐</span>
-          <div class="restaurant-name">Two Face Coffee &amp; Brunch</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Two+Face+Coffee+Brunch+Ubud+Bali" target="_blank">Two Face Coffee &amp; Brunch</a></div>
           <div class="restaurant-rating">⭐ 4.9</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">☕ 咖啡廳</span>
-          <div class="restaurant-name">Watercress Ubud</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Watercress+Ubud+Bali" target="_blank">Watercress Ubud</a></div>
           <div class="restaurant-rating">⭐ 4.7</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">☕ 咖啡廳</span>
-          <div class="restaurant-name">Pison Ubud</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Pison+Ubud+Bali" target="_blank">Pison Ubud</a></div>
           <div class="restaurant-rating">⭐ 4.4</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🍽️ 餐廳</span>
-          <div class="restaurant-name">Habitat Bistro Restaurant</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Habitat+Bistro+Restaurant+Ubud+Bali" target="_blank">Habitat Bistro Restaurant</a></div>
           <div class="restaurant-rating">⭐ 4.9</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🍽️ 晚餐</span>
-          <div class="restaurant-name">Donna</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Donna+Restaurant+Ubud+Bali" target="_blank">Donna</a></div>
           <div class="restaurant-rating">⭐ 4.8</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🍹 酒吧</span>
-          <div class="restaurant-name">Night Rooster</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Night+Rooster+Ubud+Bali" target="_blank">Night Rooster</a></div>
           <div class="restaurant-rating">⭐ 4.7</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🍹 酒吧</span>
-          <div class="restaurant-name">The Blue Door Bar</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/The+Blue+Door+Bar+Ubud+Bali" target="_blank">The Blue Door Bar</a></div>
           <div class="restaurant-rating">⭐ 4.7</div>
         </div>
       </div>
@@ -525,7 +555,7 @@
         <div class="activity-card">
           <span class="activity-icon">🏖️</span>
           <div class="activity-body">
-            <div class="activity-name">La Brisa Beach Club</div>
+            <div class="activity-name"><a class="map-link" href="https://www.google.com/maps/search/La+Brisa+Beach+Club+Canggu+Bali" target="_blank">La Brisa Beach Club</a></div>
             <div class="activity-desc">峇厘島最美 Beach Club 之一，竹編建築 + 夕陽 + 雞尾酒</div>
           </div>
         </div>
@@ -534,7 +564,7 @@
         <div class="activity-card">
           <span class="activity-icon">🍹</span>
           <div class="activity-body">
-            <div class="activity-name">晚上 Finns Beach Club</div>
+            <div class="activity-name"><a class="map-link" href="https://www.google.com/maps/search/Finns+Beach+Club+Canggu+Bali" target="_blank">晚上 Finns Beach Club</a></div>
             <div class="activity-desc">蒼谷必去的大型海灘俱樂部，夜晚更有氣氛</div>
           </div>
         </div>
@@ -546,12 +576,12 @@
       <div class="restaurant-grid">
         <div class="restaurant-card">
           <span class="meal-type">🏖️ Beach Club</span>
-          <div class="restaurant-name">La Brisa Bali</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/La+Brisa+Bali+Canggu" target="_blank">La Brisa Bali</a></div>
           <div class="restaurant-rating">⭐ 4.6</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🏖️ Beach Club</span>
-          <div class="restaurant-name">Finns Beach Club</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Finns+Beach+Club+Canggu+Bali" target="_blank">Finns Beach Club</a></div>
           <div class="restaurant-rating">⭐ 4.7</div>
         </div>
       </div>
@@ -583,7 +613,7 @@
           <span class="activity-icon">🐶</span>
           <div class="activity-body">
             <div class="activity-time">11:15 – 12:15</div>
-            <div class="activity-name">Puppy Yoga Bali</div>
+            <div class="activity-name"><a class="map-link" href="https://www.google.com/maps/search/Puppy+Yoga+Bali+Canggu" target="_blank">Puppy Yoga Bali</a></div>
             <div class="activity-desc">跟超可愛的小狗狗一起做瑜伽！峇厘島限定體驗，必排</div>
           </div>
         </div>
@@ -602,7 +632,7 @@
           <span class="activity-icon">🧘</span>
           <div class="activity-body">
             <div class="activity-time">14:30 – 17:00</div>
-            <div class="activity-name">Sound Healing 音療</div>
+            <div class="activity-name"><a class="map-link" href="https://www.google.com/maps/search/Udara+Bali+Yoga+Detox+Spa+Canggu" target="_blank">Sound Healing 音療</a></div>
             <div class="activity-desc">Udara Bali Yoga Detox &amp; Spa — 頌缽音療，讓身心徹底放空</div>
           </div>
         </div>
@@ -623,12 +653,12 @@
       <div class="restaurant-grid">
         <div class="restaurant-card">
           <span class="meal-type">🧘 音療 / SPA</span>
-          <div class="restaurant-name">Udara Bali Yoga Detox &amp; Spa</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Udara+Bali+Yoga+Detox+Spa+Canggu" target="_blank">Udara Bali Yoga Detox &amp; Spa</a></div>
           <div class="restaurant-rating">🌿 特色體驗</div>
         </div>
         <div class="restaurant-card">
           <span class="meal-type">🍹 酒吧</span>
-          <div class="restaurant-name">Cloak and Dagger</div>
+          <div class="restaurant-name"><a class="map-link" href="https://www.google.com/maps/search/Cloak+and+Dagger+Canggu+Bali" target="_blank">Cloak and Dagger</a></div>
           <div class="restaurant-rating">⭐ 4.9</div>
         </div>
       </div>
